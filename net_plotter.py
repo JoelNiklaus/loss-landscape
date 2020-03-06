@@ -9,6 +9,7 @@ import h5py
 import h5_util
 import model_loader
 
+
 ################################################################################
 #                 Supporting functions for weights manipulation
 ################################################################################
@@ -32,9 +33,9 @@ def set_weights(net, weights, directions=None, step=None):
         if len(directions) == 2:
             dx = directions[0]
             dy = directions[1]
-            changes = [d0*step[0] + d1*step[1] for (d0, d1) in zip(dx, dy)]
+            changes = [d0 * step[0] + d1 * step[1] for (d0, d1) in zip(dx, dy)]
         else:
-            changes = [d*step for d in directions[0]]
+            changes = [d * step for d in directions[0]]
 
         for (p, w, d) in zip(net.parameters(), weights, changes):
             p.data = w + torch.Tensor(d).type(type(w))
@@ -51,9 +52,9 @@ def set_states(net, states, directions=None, step=None):
         if len(directions) == 2:
             dx = directions[0]
             dy = directions[1]
-            changes = [d0*step[0] + d1*step[1] for (d0, d1) in zip(dx, dy)]
+            changes = [d0 * step[0] + d1 * step[1] for (d0, d1) in zip(dx, dy)]
         else:
-            changes = [d*step for d in directions[0]]
+            changes = [d * step for d in directions[0]]
 
         new_states = copy.deepcopy(states)
         assert (len(new_states) == len(changes))
@@ -108,11 +109,11 @@ def normalize_direction(direction, weights, norm='filter'):
         # Rescale the filters (weights in group) in 'direction' so that each
         # filter has the same norm as its corresponding filter in 'weights'.
         for d, w in zip(direction, weights):
-            d.mul_(w.norm()/(d.norm() + 1e-10))
+            d.mul_(w.norm() / (d.norm() + 1e-10))
     elif norm == 'layer':
         # Rescale the layer variables in the direction so that each layer has
         # the same norm as the layer variables in weights.
-        direction.mul_(weights.norm()/direction.norm())
+        direction.mul_(weights.norm() / direction.norm())
     elif norm == 'weight':
         # Rescale the entries in the direction so that each entry has the same
         # scale as the corresponding weight.
@@ -132,25 +133,25 @@ def normalize_directions_for_weights(direction, weights, norm='filter', ignore='
     """
         The normalization scales the direction entries according to the entries of weights.
     """
-    assert(len(direction) == len(weights))
+    assert (len(direction) == len(weights))
     for d, w in zip(direction, weights):
         if d.dim() <= 1:
             if ignore == 'biasbn':
-                d.fill_(0) # ignore directions for weights with 1 dimension
+                d.fill_(0)  # ignore directions for weights with 1 dimension
             else:
-                d.copy_(w) # keep directions for weights/bias that are only 1 per node
+                d.copy_(w)  # keep directions for weights/bias that are only 1 per node
         else:
             normalize_direction(d, w, norm)
 
 
 def normalize_directions_for_states(direction, states, norm='filter', ignore='ignore'):
-    assert(len(direction) == len(states))
+    assert (len(direction) == len(states))
     for d, (k, w) in zip(direction, states.items()):
         if d.dim() <= 1:
             if ignore == 'biasbn':
-                d.fill_(0) # ignore directions for weights with 1 dimension
+                d.fill_(0)  # ignore directions for weights with 1 dimension
             else:
-                d.copy_(w) # keep directions for weights/bias that are only 1 per node
+                d.copy_(w)  # keep directions for weights/bias that are only 1 per node
         else:
             normalize_direction(d, w, norm)
 
@@ -160,6 +161,7 @@ def ignore_biasbn(directions):
     for d in directions:
         if d.dim() <= 1:
             d.fill_(0)
+
 
 ################################################################################
 #                       Create directions
@@ -210,11 +212,11 @@ def create_random_direction(net, dir_type='weights', ignore='biasbn', norm='filt
 
     # random direction
     if dir_type == 'weights':
-        weights = get_weights(net) # a list of parameters.
+        weights = get_weights(net)  # a list of parameters.
         direction = get_random_weights(weights)
         normalize_directions_for_weights(direction, weights, norm, ignore)
     elif dir_type == 'states':
-        states = net.state_dict() # a dict of parameters, including BN's running mean/var.
+        states = net.state_dict()  # a dict of parameters, including BN's running mean/var.
         direction = get_random_states(states)
         normalize_directions_for_states(direction, states, norm, ignore)
 
@@ -235,12 +237,12 @@ def setup_direction(args, dir_file, net):
         f = h5py.File(dir_file, 'r')
         if (args.y and 'ydirection' in f.keys()) or 'xdirection' in f.keys():
             f.close()
-            print ("%s is already setted up" % dir_file)
+            print("%s is already set up" % dir_file)
             return
         f.close()
 
     # Create the plotting directions
-    f = h5py.File(dir_file,'w') # create file, fail if exists
+    f = h5py.File(dir_file, 'w')  # create file, fail if exists
     if not args.dir_file:
         print("Setting up the plotting directions...")
         if args.model_file2:
@@ -261,7 +263,7 @@ def setup_direction(args, dir_file, net):
             h5_util.write_list(f, 'ydirection', ydirection)
 
     f.close()
-    print ("direction file created: %s" % dir_file)
+    print("direction file created: %s" % dir_file)
 
 
 def name_direction_file(args):
@@ -281,13 +283,13 @@ def name_direction_file(args):
         assert exists(file2), file2 + " does not exist!"
         if file1[:file1.rfind('/')] == file2[:file2.rfind('/')]:
             # model_file and model_file2 are under the same folder
-            dir_file += file1 + '_' + file2[file2.rfind('/')+1:]
+            dir_file += file1 + '_' + file2[file2.rfind('/') + 1:]
         else:
             # model_file and model_file2 are under different folders
             prefix = commonprefix([file1, file2])
             prefix = prefix[0:prefix.rfind('/')]
-            dir_file += file1[:file1.rfind('/')] + '_' + file1[file1.rfind('/')+1:] + '_' + \
-                       file2[len(prefix)+1: file2.rfind('/')] + '_' + file2[file2.rfind('/')+1:]
+            dir_file += file1[:file1.rfind('/')] + '_' + file1[file1.rfind('/') + 1:] + '_' + \
+                        file2[len(prefix) + 1: file2.rfind('/')] + '_' + file2[file2.rfind('/') + 1:]
     else:
         dir_file += file1
 
@@ -302,16 +304,16 @@ def name_direction_file(args):
         if file3:
             assert exists(file3), "%s does not exist!" % file3
             if file1[:file1.rfind('/')] == file3[:file3.rfind('/')]:
-               dir_file += file3
+                dir_file += file3
             else:
-               # model_file and model_file3 are under different folders
-               dir_file += file3[:file3.rfind('/')] + '_' + file3[file3.rfind('/')+1:]
+                # model_file and model_file3 are under different folders
+                dir_file += file3[:file3.rfind('/')] + '_' + file3[file3.rfind('/') + 1:]
         else:
             if args.yignore:
                 dir_file += '_yignore=' + args.yignore
             if args.ynorm:
                 dir_file += '_ynorm=' + args.ynorm
-            if args.same_dir: # ydirection is the same as xdirection
+            if args.same_dir:  # ydirection is the same as xdirection
                 dir_file += '_same_dir'
 
     # index number
