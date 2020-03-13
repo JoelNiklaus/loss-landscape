@@ -55,16 +55,17 @@ def setup_surface_file(args, surf_file, dir_file):
             f.close()
             print("%s is already set up" % surf_file)
             return
+        f.close()
 
     f = h5py.File(surf_file, 'a')
-    f['dir_file'] = dir_file
+    #f['dir_file'] = dir_file # This does not work and does not seem to be used again
 
     # Create the coordinates(resolutions) at which the function is evaluated
-    xcoordinates = np.linspace(args.xmin, args.xmax, num=args.xnum)
+    xcoordinates = np.linspace(args.xmin, args.xmax, num=int(args.xnum))
     f['xcoordinates'] = xcoordinates
 
     if args.y:
-        ycoordinates = np.linspace(args.ymin, args.ymax, num=args.ynum)
+        ycoordinates = np.linspace(args.ymin, args.ymax, num=int(args.ynum))
         f['ycoordinates'] = ycoordinates
     f.close()
 
