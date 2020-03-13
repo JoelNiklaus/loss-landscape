@@ -13,8 +13,9 @@ import torch.backends.cudnn as cudnn
 from torch.autograd import Variable
 import torch.nn.parallel
 
-import model_loader
-import dataloader
+from cifar10 import dataloader
+from cifar10 import model_loader
+
 
 def init_params(net):
     for m in net.modules():
@@ -194,7 +195,7 @@ if __name__ == '__main__':
     if not os.path.exists('trained_nets/' + save_folder):
         os.makedirs('trained_nets/' + save_folder)
 
-    f = open('trained_nets/' + save_folder + '/log.out', 'a', 0)
+    f = open('trained_nets/' + save_folder + '/log.out', 'a')
 
     trainloader, testloader = dataloader.get_data_loaders(args)
 
