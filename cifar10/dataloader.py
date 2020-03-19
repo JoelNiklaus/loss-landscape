@@ -29,7 +29,7 @@ def get_data_loaders(args):
                 normalize,
             ])
         else:
-            # no data agumentation
+            # no data augmentation
             transform_train = transforms.Compose([
                 transforms.ToTensor(),
                 normalize,
