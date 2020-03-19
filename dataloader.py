@@ -4,6 +4,7 @@ from torchvision import transforms
 import os
 import numpy as np
 import argparse
+import cinic10.dataloader
 
 def get_relative_path(file):
     script_dir = os.path.dirname(__file__)  # <-- absolute dir the script is in
@@ -77,6 +78,9 @@ def load_dataset(dataset='cifar10', datapath='cifar10/data', batch_size=128, \
                                                download=False, transform=transform)
         test_loader = torch.utils.data.DataLoader(testset, batch_size=batch_size,
                                                   shuffle=False, num_workers=threads)
+
+    if dataset == 'cinic10':
+        return cinic10.dataloader.get_data_loaders()
 
     return train_loader, test_loader
 
