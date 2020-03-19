@@ -13,7 +13,7 @@ import torch.backends.cudnn as cudnn
 from torch.autograd import Variable
 import torch.nn.parallel
 
-from datasets.cinic10 import dataloader, model_loader
+from datasets.cinic10 import data_loader, model_loader
 
 
 def init_params(net):
@@ -197,7 +197,7 @@ if __name__ == '__main__':
 
     f = open('trained_nets/' + save_folder + '/log.out', 'a')
 
-    trainloader, testloader = dataloader.get_data_loaders(args)
+    trainloader, testloader = data_loader.get_data_loaders(args)
 
     if args.label_corrupt_prob and not args.resume_model:
         torch.save(trainloader, 'trained_nets/' + save_folder + '/trainloader.dat')

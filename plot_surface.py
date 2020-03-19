@@ -14,7 +14,7 @@ import sys
 import numpy as np
 import torchvision
 import torch.nn as nn
-import dataloader
+import data_loader
 import evaluation
 import projection as proj
 import net_plotter
@@ -286,7 +286,7 @@ if __name__ == '__main__':
 
     mpi.barrier(comm)
 
-    trainloader, testloader = dataloader.load_dataset(args.dataset, args.datapath,
+    trainloader, testloader = data_loader.load_dataset(args.dataset, args.datapath,
                                                       args.batch_size, args.threads, args.raw_data,
                                                       args.data_split, args.split_idx,
                                                       args.trainloader, args.testloader)
