@@ -13,8 +13,8 @@ import torch.backends.cudnn as cudnn
 from torch.autograd import Variable
 import torch.nn.parallel
 
-from cifar10 import dataloader
-from cifar10 import model_loader
+from datasets.cifar10 import dataloader
+from datasets.cifar10 import model_loader
 
 
 def init_params(net):

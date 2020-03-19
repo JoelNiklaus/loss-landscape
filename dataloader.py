@@ -1,22 +1,24 @@
+import importlib
+
 import torch
 import torchvision
 from torchvision import transforms
 import os
 import numpy as np
 import argparse
-import cinic10.dataloader
+
 
 def get_relative_path(file):
     script_dir = os.path.dirname(__file__)  # <-- absolute dir the script is in
     return os.path.join(script_dir, file)
 
 
-def load_dataset(dataset='cifar10', datapath='cifar10/data', batch_size=128, \
+def load_dataset(dataset='cifar10', datapath='datasets/cifar10/data', batch_size=128, \
                  threads=2, raw_data=False, data_split=1, split_idx=0, \
                  trainloader_path="", testloader_path=""):
     """
-    Setup dataloader. The data is not randomly cropped as in training because of
-    we want to esimate the loss value with a fixed dataset.
+    Setup dataloader. The data is not randomly cropped as in training because
+    we want to estimate the loss value with a fixed dataset.
 
     Args:
         raw_data: raw images, no data preprocessing
@@ -38,8 +40,8 @@ def load_dataset(dataset='cifar10', datapath='cifar10/data', batch_size=128, \
     assert split_idx < data_split, 'the index of data partition should be smaller than the total number of split'
 
     if dataset == 'cifar10':
-        normalize = transforms.Normalize(mean=[x/255.0 for x in [125.3, 123.0, 113.9]],
-                                         std=[x/255.0 for x in [63.0, 62.1, 66.7]])
+        normalize = transforms.Normalize(mean=[x / 255.0 for x in [125.3, 123.0, 113.9]],
+                                         std=[x / 255.0 for x in [63.0, 62.1, 66.7]])
 
         data_folder = get_relative_path(datapath)
         if raw_data:
@@ -58,7 +60,7 @@ def load_dataset(dataset='cifar10', datapath='cifar10/data', batch_size=128, \
         # randomly choose 1/3 of the data.
         if data_split > 1:
             indices = torch.tensor(np.arange(len(trainset)))
-            data_num = len(trainset) // data_split # the number of data in a chunk of the split
+            data_num = len(trainset) // data_split  # the number of data in a chunk of the split
 
             # Randomly sample indices. Use seed=0 in the generator to make this reproducible
             state = np.random.get_state()
@@ -73,14 +75,18 @@ def load_dataset(dataset='cifar10', datapath='cifar10/data', batch_size=128, \
         else:
             kwargs = {'num_workers': 2, 'pin_memory': True}
             train_loader = torch.utils.data.DataLoader(trainset, batch_size=batch_size,
-                                                      shuffle=False, **kwargs)
+                                                       shuffle=False, **kwargs)
         testset = torchvision.datasets.CIFAR10(root=data_folder, train=False,
                                                download=False, transform=transform)
         test_loader = torch.utils.data.DataLoader(testset, batch_size=batch_size,
                                                   shuffle=False, num_workers=threads)
 
-    if dataset == 'cinic10':
-        return cinic10.dataloader.get_data_loaders()
+    else:
+        module = 'datasets.' + dataset + '.dataloader'
+        mymod = importlib.import_module(module)  # import the module: same as import datasets.{dataset}.dataloader
+
+        load_function = getattr(mymod, "get_data_loaders")
+        return load_function()
 
     return train_loader, test_loader
 
@@ -96,7 +102,7 @@ if __name__ == '__main__':
     parser.add_argument('--threads', default=2, type=int, help='number of threads')
     parser.add_argument('--batch_size', default=128, type=int, help='minibatch size')
     parser.add_argument('--dataset', default='cifar10', help='cifar10 | imagenet')
-    parser.add_argument('--datapath', default='cifar10/data', metavar='DIR', help='path to the dataset')
+    parser.add_argument('--datapath', default='datasets/cifar10/data', metavar='DIR', help='path to the dataset')
     parser.add_argument('--raw_data', action='store_true', default=False, help='do not normalize data')
     parser.add_argument('--data_split', default=1, type=int, help='the number of splits for the dataloader')
     parser.add_argument('--split_idx', default=0, type=int, help='the index of data splits for the dataloader')
@@ -106,10 +112,10 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     trainloader, testloader = load_dataset(args.dataset, args.datapath,
-                                args.batch_size, args.threads, args.raw_data,
-                                args.data_split, args.split_idx,
-                                args.trainloader, args.testloader)
+                                           args.batch_size, args.threads, args.raw_data,
+                                           args.data_split, args.split_idx,
+                                           args.trainloader, args.testloader)
 
     print('num of batches: %d' % len(trainloader))
     for batch_idx, (inputs, targets) in enumerate(trainloader):
-        print('batch_idx: %d   batch_size: %d'%(batch_idx, len(inputs)))
+        print('batch_idx: %d   batch_size: %d' % (batch_idx, len(inputs)))

@@ -13,8 +13,7 @@ import torch.backends.cudnn as cudnn
 from torch.autograd import Variable
 import torch.nn.parallel
 
-from cinic10 import dataloader
-from cinic10 import model_loader
+from datasets.cinic10 import dataloader, model_loader
 
 
 def init_params(net):

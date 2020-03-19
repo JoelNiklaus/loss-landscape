@@ -37,7 +37,7 @@ def get_data_loaders(args=None):
     """
     See: https://github.com/BayesWatch/cinic-10
     """
-    cinic_directory = 'cinic10/data'
+    cinic_directory = 'datasets/cinic10/data'
     cinic_mean = [0.47889522, 0.47227842, 0.43047404]
     cinic_std = [0.24205776, 0.23828046, 0.25874835]
     testloader = data.DataLoader(

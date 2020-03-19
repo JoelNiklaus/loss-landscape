@@ -3,12 +3,8 @@
 *.t7
 *.pth
 *.pdf
-cifar10/plots/*.png
-cifar10/plots/*.h5
-cifar10/data/
-cifar10/trained_nets/
-cinic10/plots/*.png
-cinic10/plots/*.h5
-cinic10/data/
-cinic10/trained_nets/
+datasets/*/plots/*.png
+datasets/*/plots/*.h5
+datasets/*/data/
+datasets/*/trained_nets/
 /.idea/

@@ -1,8 +1,7 @@
 import os
-import pickle
 
 import torch
-import cinic10.models.baselines as baselines
+import datasets.cinic10.models.baselines as baselines
 
 # map between model name and function
 models = {

@@ -58,7 +58,7 @@ def setup_surface_file(args, surf_file, dir_file):
         f.close()
 
     f = h5py.File(surf_file, 'a')
-    #f['dir_file'] = dir_file # This does not work and does not seem to be used again
+    # f['dir_file'] = dir_file # This does not work and does not seem to be used again
 
     # Create the coordinates(resolutions) at which the function is evaluated
     xcoordinates = np.linspace(args.xmin, args.xmax, num=int(args.xnum))
@@ -170,7 +170,7 @@ if __name__ == '__main__':
 
     # data parameters
     parser.add_argument('--dataset', default='cifar10', help='cifar10 | imagenet')
-    parser.add_argument('--datapath', default='cifar10/data', metavar='DIR', help='path to the dataset')
+    parser.add_argument('--datapath', default='datasets/cifar10/data', metavar='DIR', help='path to the dataset')
     parser.add_argument('--raw_data', action='store_true', default=False, help='no data preprocessing')
     parser.add_argument('--data_split', default=1, type=int, help='the number of splits for the dataloader')
     parser.add_argument('--split_idx', default=0, type=int, help='the index of data splits for the dataloader')
@@ -282,7 +282,7 @@ if __name__ == '__main__':
     # --------------------------------------------------------------------------
     # download CIFAR10 if it does not exit
     if rank == 0 and args.dataset == 'cifar10':
-        torchvision.datasets.CIFAR10(root=args.dataset + '/data', train=True, download=True)
+        torchvision.datasets.CIFAR10(root='datasets/' + args.dataset + '/data', train=True, download=True)
 
     mpi.barrier(comm)
 
