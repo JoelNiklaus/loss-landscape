@@ -2,10 +2,7 @@ name: loss_landscape
 channels:
   - pytorch
   - cryoem
-  - anaconda-fusion
-  - loopbio
   - defaults
-  - conda-forge
 dependencies:
   - blas=1.0=mkl
   - ca-certificates=2020.1.1=0
@@ -17,8 +14,9 @@ dependencies:
   - intel-openmp=2019.4=233
   - joblib=0.14.1=py_0
   - jpeg=9b=he5867d9_2
-  - kiwisolver=1.1.0=py38ha1b3eb9_0
-  - libcxx=9.0.1=1
+  - kiwisolver=1.0.1=py38h0a44026_0
+  - libcxx=4.0.1=hcfea43d_1
+  - libcxxabi=4.0.1=hcfea43d_1
   - libedit=3.1.20181209=hb402a30_0
   - libffi=3.2.1=h475c297_4
   - libgfortran=3.0.1=h93005f0_2
@@ -53,12 +51,12 @@ dependencies:
   - scikit-learn=0.22.1=py38h27c97d8_0
   - scipy=1.4.1=py38h44e99c9_0
   - seaborn=0.10.0=py_0
-  - setuptools=45.2.0=py38_0
+  - setuptools=46.0.0=py38_0
   - six=1.14.0=py38_0
   - sqlite=3.31.1=ha441bb4_0
   - tk=8.6.8=ha441bb4_0
   - torchvision=0.5.0=py38_cpu
-  - tornado=6.0.3=py38h1de35cc_3
+  - tornado=6.0.4=py38h1de35cc_1
   - wheel=0.34.2=py38_0
   - xz=5.2.4=h1de35cc_4
   - zlib=1.2.11=h1de35cc_3
