@@ -33,7 +33,7 @@ import torchvision.transforms as transforms
 
 
 
-def get_data_loaders(args=None):
+def get_data_loaders(args):
     """
     See: https://github.com/BayesWatch/cinic-10
     """
@@ -44,7 +44,7 @@ def get_data_loaders(args=None):
         torchvision.datasets.ImageFolder(cinic_directory + '/test',
             transform=transforms.Compose([transforms.ToTensor(),
             transforms.Normalize(mean=cinic_mean, std=cinic_std)])),
-        batch_size=128, shuffle=True)
+        batch_size=args.batch_size, shuffle=True)
     trainloader = testloader
 
     return trainloader, testloader

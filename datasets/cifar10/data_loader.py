@@ -5,6 +5,14 @@ import torchvision
 import torchvision.transforms as transforms
 
 def get_data_loaders(args):
+    """
+    Gets the data loaders. This method is called dynamically from data_loader.py in the root directory.
+    Args:
+        args:   The command line args that have been set in plot_surface.py in the root directory.
+
+    Returns:    A tuple containing the trainloader and the testloader.
+
+    """
     if args.trainloader and args.testloader:
         assert os.path.exists(args.trainloader), 'trainloader does not exist'
         assert os.path.exists(args.testloader), 'testloader does not exist'

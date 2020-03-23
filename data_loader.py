@@ -86,7 +86,7 @@ def load_dataset(dataset='cifar10', datapath='datasets/cifar10/data', batch_size
         mymod = importlib.import_module(module)  # import the module: same as import datasets.{dataset}.dataloader
 
         load_function = getattr(mymod, "get_data_loaders")
-        return load_function()
+        return load_function(args)
 
     return train_loader, test_loader
 

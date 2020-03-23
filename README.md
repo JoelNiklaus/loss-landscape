@@ -12,14 +12,26 @@ The random direction(s) and loss surface values are stored in HDF5 (`.h5`) files
 
 ## Setup
 
+### Installation
+#### Option 1
+Create a new environment
+``conda create --name loss_landscape``
+Add the necessary additional channels
+`conda config --add channels pytorch && conda config --add channels cryoem``
+Install the necessary dependencies
+``conda install --yes --file requirements.txt``
+
+#### Option 2
+``conda env create -f environment.yml``
+
 **Environment**: One or more multi-GPU node(s) with the following software/libraries installed:
-- [PyTorch 0.4](https://pytorch.org/)
-- [openmpi 3.1.2](https://www.open-mpi.org/)
-- [mpi4py 2.0.0](https://mpi4py.scipy.org/docs/usrman/install.html)
-- [numpy 1.15.1](https://docs.scipy.org/doc/numpy/user/quickstart.html)  
-- [h5py 2.7.0](http://docs.h5py.org/en/stable/build.html#install)
-- [matplotlib 2.0.2](https://matplotlib.org/users/installing.html)
-- [scipy 0.19](https://www.scipy.org/install.html)
+- [PyTorch 1.4.0](https://pytorch.org/)
+- [openmpi 2.0.2](https://www.open-mpi.org/)
+- [mpi4py 3.0.3](https://mpi4py.scipy.org/docs/usrman/install.html)
+- [numpy 1.18.1](https://docs.scipy.org/doc/numpy/user/quickstart.html)  
+- [h5py 2.10.0](http://docs.h5py.org/en/stable/build.html#install)
+- [matplotlib 3.1.3](https://matplotlib.org/users/installing.html)
+- [scipy 1.4.1](https://www.scipy.org/install.html)
 
 **Pre-trained models**:
 The code accepts pre-trained PyTorch models for the CIFAR-10 dataset.
@@ -34,6 +46,34 @@ Some of the pre-trained models and plotted figures can be downloaded here:
 **Data preprocessing**:
 The data pre-processing method used for visualization should be consistent with the one used for model training.
 No data augmentation (random cropping or horizontal flipping) is used in calculating the loss values.
+
+### What exactly do I need to do to make it work?
+
+1. If you have a new dataset: add a new folder ``datasets/{your_dataset_name}``.
+2. Add you data to ``datasets/{your_dataset_name}/data``.
+3. Add the code for your models to a file in ``datasets/{your_dataset_name}/models``.
+4. Add your trained network to a file in ``datasets/{your_dataset_name}/trained_nets/{your_model_with_hyper_parameters}``.
+5. Add a file ``data_loader.py`` in ``datasets/{your_dataset_name}`` and implement the method ``get_data_loaders()``. You can find documentation in [data_loader.py](datasets/cifar10/data_loader.py).
+6. Add a file ``model_loader.py`` in ``datasets/{your_dataset_name}`` and implement the method ``load()``. Also add to the file a dictionary called ``models`` containing a mapping between the name of your model and the model function. You can find documentation in [model_loader.py](datasets/cifar10/model_loader.py).
+
+
+#### Examples for running it
+Locally without GPU:
+```shell script
+python plot_surface.py --model resnet56 --dataset cifar10 --x=-1:1:51 --y=-1:1:51 \
+--model_file datasets/cifar10/trained_nets/resnet56_sgd_lr=0.1_bs=128_wd=0.0005/model_300.t7 \
+--dir_type weights --xnorm filter --xignore biasbn --ynorm filter --yignore biasbn --plot
+```
+
+On a server with 4 GPUs and 16 CPUs: 
+```shell script
+nohup python plot_surface.py --model init_baseline_vgglike --dataset cinic10 --x=-1:1:51 --y=-1:1:51 \
+--cuda --ngpu 4 --threads 8 --batch_size 8192 \
+--model_file cinic10/trained_nets/init_baseline_vgglike_sgd_lr=0.1_bs=128_wd=0.0005_mom=0.9_save_epoch=1_ngpu=4/model_10.t7 \
+--dir_type weights --xnorm filter --xignore biasbn --ynorm filter --yignore biasbn --plot > nohup.out &
+```
+
+More examples in script/plot_examples.sh
 
 ## Visualizing 1D loss curve
 
@@ -115,6 +155,9 @@ python h52vtp.py --surf_file path_to_surf_file --surf_name train_loss --zmax  10
 3. If the surface appears extremely skinny and needle-like, you may need to adjust the "transforming" parameters in the left control panel.  Enter numbers larger than 1 in the "scale" fields to widen the plot.
 
 4. Select `Save screenshot` in the File menu to save the image.
+
+## Troubleshooting
+Do not use mpi when you run it on a single machine.
 
 ## Reference
 

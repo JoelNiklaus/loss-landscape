@@ -37,9 +37,20 @@ models = {
     'wrn110_4_noshort'      : resnet.WRN110_4_noshort,
 }
 
+
 def load(model_name, model_file=None, data_parallel=False):
+    """
+    Loads the model with the name and the path.
+    Args:
+        model_name:     name of the model (needs to map to a function in the models dictionary above)
+        model_file:     path of the saved weights of the model
+        data_parallel:  if the model is saved in data parallel mode
+
+    Returns:            the loaded model
+
+    """
     net = models[model_name]()
-    if data_parallel: # the model is saved in data parallel mode
+    if data_parallel:  # the model is saved in data parallel mode
         net = torch.nn.DataParallel(net)
 
     if model_file:
@@ -50,7 +61,7 @@ def load(model_name, model_file=None, data_parallel=False):
         else:
             net.load_state_dict(stored)
 
-    if data_parallel: # convert the model back to the single GPU version
+    if data_parallel:  # convert the model back to the single GPU version
         net = net.module
 
     net.eval()
