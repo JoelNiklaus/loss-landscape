@@ -17,6 +17,10 @@ from datasets.cifar10 import data_loader
 from datasets.cifar10 import model_loader
 
 
+def get_relative_path(file):
+    script_dir = os.path.dirname(__file__)  # <-- absolute dir the script is in
+    return os.path.join(script_dir, file)
+
 def init_params(net):
     for m in net.modules():
         if isinstance(m, nn.Conv2d) or isinstance(m, nn.ConvTranspose2d):
@@ -148,7 +152,7 @@ if __name__ == '__main__':
     parser.add_argument('--weight_decay', default=0.0005, type=float)
     parser.add_argument('--momentum', default=0.9, type=float)
     parser.add_argument('--epochs', default=300, type=int, metavar='N', help='number of total epochs to run')
-    parser.add_argument('--save', default='trained_nets',help='path to save trained nets')
+    parser.add_argument('--save', default='trained_nets', help='path to save trained nets')
     parser.add_argument('--save_epoch', default=10, type=int, help='save every save_epochs')
     parser.add_argument('--ngpu', type=int, default=1, help='number of GPUs to use')
     parser.add_argument('--rand_seed', default=0, type=int, help='seed for random num generator')
@@ -189,20 +193,20 @@ if __name__ == '__main__':
     lr = args.lr  # current learning rate
     start_epoch = 1  # start from epoch 1 or last checkpoint epoch
 
-    if not os.path.isdir(args.save):
-        os.mkdir(args.save)
+    if not os.path.isdir(get_relative_path(args.save)):
+        os.mkdir(get_relative_path(args.save))
 
     save_folder = name_save_folder(args)
-    if not os.path.exists('trained_nets/' + save_folder):
-        os.makedirs('trained_nets/' + save_folder)
+    if not os.path.exists(get_relative_path('trained_nets/' + save_folder)):
+        os.makedirs(get_relative_path('trained_nets/' + save_folder))
 
-    f = open('trained_nets/' + save_folder + '/log.out', 'a')
+    f = open(get_relative_path('trained_nets/' + save_folder + '/log.out'), 'a')
 
-    trainloader, testloader = data_loader.get_data_loaders(args)
+    trainloader, testloader = data_loader.get_data_loaders_for_training(args)
 
     if args.label_corrupt_prob and not args.resume_model:
-        torch.save(trainloader, 'trained_nets/' + save_folder + '/trainloader.dat')
-        torch.save(testloader, 'trained_nets/' + save_folder + '/testloader.dat')
+        torch.save(trainloader, get_relative_path('trained_nets/' + save_folder + '/trainloader.dat'))
+        torch.save(testloader, get_relative_path('trained_nets/' + save_folder + '/testloader.dat'))
 
     # Model
     if args.resume_model:
@@ -254,8 +258,8 @@ if __name__ == '__main__':
         opt_state = {
             'optimizer': optimizer.state_dict()
         }
-        torch.save(state, 'trained_nets/' + save_folder + '/model_0.t7')
-        torch.save(opt_state, 'trained_nets/' + save_folder + '/opt_state_0.t7')
+        torch.save(state, get_relative_path('trained_nets/' + save_folder + '/model_0.t7'))
+        torch.save(opt_state, get_relative_path('trained_nets/' + save_folder + '/opt_state_0.t7'))
 
     for epoch in range(start_epoch, args.epochs + 1):
         loss, train_err = train(trainloader, net, criterion, optimizer, use_cuda)
@@ -276,8 +280,8 @@ if __name__ == '__main__':
             opt_state = {
                 'optimizer': optimizer.state_dict()
             }
-            torch.save(state, 'trained_nets/' + save_folder + '/model_' + str(epoch) + '.t7')
-            torch.save(opt_state, 'trained_nets/' + save_folder + '/opt_state_' + str(epoch) + '.t7')
+            torch.save(state, get_relative_path('trained_nets/' + save_folder + '/model_' + str(epoch) + '.t7'))
+            torch.save(opt_state, get_relative_path('trained_nets/' + save_folder + '/opt_state_' + str(epoch) + '.t7'))
 
         if int(epoch) == 150 or int(epoch) == 225 or int(epoch) == 275:
             lr *= args.lr_decay

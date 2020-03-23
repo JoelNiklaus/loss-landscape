@@ -18,7 +18,7 @@ def load(dataset, model_name, model_file, data_parallel=False):
     available_datasets = [f.name for f in os.scandir("datasets") if f.is_dir()]
     available_datasets.remove("__pycache__")
     if dataset not in available_datasets:
-        raise ValueError(dataset + " is not a valid datasets. The available datasets are " + str(available_datasets))
+        raise ValueError(dataset + " is not a valid dataset. The available datasets are " + str(available_datasets))
 
     module = 'datasets.' + dataset + '.model_loader'
     mymod = importlib.import_module(module)  # import the module: same as import datasets.{dataset}.model_loader

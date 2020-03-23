@@ -170,7 +170,7 @@ if __name__ == '__main__':
 
     # data parameters
     parser.add_argument('--dataset', default='cifar10', help='cifar10 | imagenet')
-    parser.add_argument('--datapath', default='datasets/cifar10/data', metavar='DIR', help='path to the dataset')
+    parser.add_argument('--datapath', default='data', metavar='DIR', help='path to the dataset')
     parser.add_argument('--raw_data', action='store_true', default=False, help='no data preprocessing')
     parser.add_argument('--data_split', default=1, type=int, help='the number of splits for the dataloader')
     parser.add_argument('--split_idx', default=0, type=int, help='the index of data splits for the dataloader')
@@ -272,7 +272,7 @@ if __name__ == '__main__':
 
     # load directions
     d = net_plotter.load_directions(dir_file)
-    # calculate the consine similarity of the two directions
+    # calculate the cosine similarity of the two directions
     if len(d) == 2 and rank == 0:
         similarity = proj.cal_angle(proj.nplist_to_tensor(d[0]), proj.nplist_to_tensor(d[1]))
         print('cosine similarity between x-axis and y-axis: %f' % similarity)
