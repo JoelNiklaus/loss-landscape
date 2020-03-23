@@ -17,7 +17,7 @@ The random direction(s) and loss surface values are stored in HDF5 (`.h5`) files
 Create a new environment
 ``conda create --name loss_landscape``
 Add the necessary additional channels
-`conda config --add channels pytorch && conda config --add channels cryoem``
+``conda config --add channels pytorch && conda config --add channels cryoem``
 Install the necessary dependencies
 ``conda install --yes --file requirements.txt``
 

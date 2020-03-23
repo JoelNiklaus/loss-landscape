@@ -4,10 +4,7 @@ import torchvision.transforms as transforms
 import os
 import numpy as np
 
-
-def get_relative_path(file):
-    script_dir = os.path.dirname(__file__)  # <-- absolute dir the script is in
-    return os.path.join(script_dir, file)
+from utils import get_relative_path
 
 
 def get_data_loaders_for_plotting(datapath='data', batch_size=128,

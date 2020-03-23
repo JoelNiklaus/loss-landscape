@@ -16,10 +16,8 @@ import torch.nn.parallel
 from datasets.cifar10 import data_loader
 from datasets.cifar10 import model_loader
 
+from utils import get_relative_path
 
-def get_relative_path(file):
-    script_dir = os.path.dirname(__file__)  # <-- absolute dir the script is in
-    return os.path.join(script_dir, file)
 
 def init_params(net):
     for m in net.modules():
@@ -34,6 +32,7 @@ def init_params(net):
             init.normal_(m.weight, std=1e-3)
             if m.bias is not None:
                 init.constant_(m.bias, 0)
+
 
 # Training
 def train(trainloader, net, criterion, optimizer, use_cuda=True):
@@ -54,7 +53,7 @@ def train(trainloader, net, criterion, optimizer, use_cuda=True):
             loss = criterion(outputs, targets)
             loss.backward()
             optimizer.step()
-            train_loss += loss.item()*batch_size
+            train_loss += loss.item() * batch_size
             _, predicted = torch.max(outputs.data, 1)
             correct += predicted.eq(targets.data).cpu().sum().item()
 
@@ -73,11 +72,11 @@ def train(trainloader, net, criterion, optimizer, use_cuda=True):
             loss = criterion(outputs, one_hot_targets)
             loss.backward()
             optimizer.step()
-            train_loss += loss.item()*batch_size
+            train_loss += loss.item() * batch_size
             _, predicted = torch.max(outputs.data, 1)
             correct += predicted.cpu().eq(targets).cpu().sum().item()
 
-    return train_loss/total, 100 - 100.*correct/total
+    return train_loss / total, 100 - 100. * correct / total
 
 
 def test(testloader, net, criterion, use_cuda=True):
@@ -96,7 +95,7 @@ def test(testloader, net, criterion, use_cuda=True):
             inputs, targets = Variable(inputs), Variable(targets)
             outputs = net(inputs)
             loss = criterion(outputs, targets)
-            test_loss += loss.item()*batch_size
+            test_loss += loss.item() * batch_size
             _, predicted = torch.max(outputs.data, 1)
             correct += predicted.eq(targets.data).cpu().sum().item()
 
@@ -113,11 +112,12 @@ def test(testloader, net, criterion, use_cuda=True):
             inputs, one_hot_targets = Variable(inputs), Variable(one_hot_targets)
             outputs = F.softmax(net(inputs))
             loss = criterion(outputs, one_hot_targets)
-            test_loss += loss.item()*batch_size
+            test_loss += loss.item() * batch_size
             _, predicted = torch.max(outputs.data, 1)
             correct += predicted.cpu().eq(targets).cpu().sum().item()
 
-    return test_loss/total, 100 - 100.*correct/total
+    return test_loss / total, 100 - 100. * correct / total
+
 
 def name_save_folder(args):
     save_folder = args.model + '_' + str(args.optimizer) + '_lr=' + str(args.lr)
@@ -141,6 +141,7 @@ def name_save_folder(args):
         save_folder += '_idx=' + str(args.idx)
 
     return save_folder
+
 
 if __name__ == '__main__':
     # Training options
@@ -234,7 +235,8 @@ if __name__ == '__main__':
 
     # Optimizer
     if args.optimizer == 'sgd':
-        optimizer = optim.SGD(net.parameters(), lr=args.lr, momentum=args.momentum, weight_decay=args.weight_decay, nesterov=True)
+        optimizer = optim.SGD(net.parameters(), lr=args.lr, momentum=args.momentum, weight_decay=args.weight_decay,
+                              nesterov=True)
     else:
         optimizer = optim.Adam(net.parameters(), lr=args.lr, weight_decay=args.weight_decay)
 
@@ -246,7 +248,8 @@ if __name__ == '__main__':
     if not args.resume_model:
         train_loss, train_err = test(trainloader, net, criterion, use_cuda)
         test_loss, test_err = test(testloader, net, criterion, use_cuda)
-        status = 'e: %d loss: %.5f train_err: %.3f test_top1: %.3f test_loss %.5f \n' % (0, train_loss, train_err, test_err, test_loss)
+        status = 'e: %d loss: %.5f train_err: %.3f test_top1: %.3f test_loss %.5f \n' % (
+        0, train_loss, train_err, test_err, test_loss)
         print(status)
         f.write(status)
 
@@ -265,7 +268,8 @@ if __name__ == '__main__':
         loss, train_err = train(trainloader, net, criterion, optimizer, use_cuda)
         test_loss, test_err = test(testloader, net, criterion, use_cuda)
 
-        status = 'e: %d loss: %.5f train_err: %.3f test_top1: %.3f test_loss %.5f \n' % (epoch, loss, train_err, test_err, test_loss)
+        status = 'e: %d loss: %.5f train_err: %.3f test_top1: %.3f test_loss %.5f \n' % (
+        epoch, loss, train_err, test_err, test_loss)
         print(status)
         f.write(status)
 
