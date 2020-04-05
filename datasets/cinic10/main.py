@@ -15,8 +15,9 @@ import torch.nn.parallel
 
 from datasets.cinic10 import data_loader, model_loader
 
-from utils import get_relative_path
-
+def get_relative_path(file):
+    script_dir = os.path.dirname(__file__)  # <-- absolute dir the script is in
+    return os.path.join(script_dir, file)
 
 def init_params(net):
     for m in net.modules():
