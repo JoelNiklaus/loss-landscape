@@ -254,7 +254,9 @@ if __name__ == '__main__':
     s = copy.deepcopy(net.state_dict())  # deepcopy since state_dict are references
     if args.ngpu > 1:
         # data parallel with multiple GPUs on a single node
-        net = nn.DataParallel(net, device_ids=range(torch.cuda.device_count()))
+        if args.ngpu > torch.cuda.device_count():
+            raise ValueError(f'Please do not enter a value higher than the available gpus ({torch.cuda.device_count()}).')
+        net = nn.DataParallel(net, device_ids=range(args.ngpu))
 
     # --------------------------------------------------------------------------
     # Setup the direction file and the surface file
