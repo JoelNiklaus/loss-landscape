@@ -12,12 +12,14 @@ Use Test transform like this
 # Utils
 
 # Torch related stuff
+import os
 import torch.utils.data as data
 import torchvision
 import torchvision.transforms as transforms
 
-from utils import get_relative_path
-
+def get_relative_path(file):
+    script_dir = os.path.dirname(__file__)  # <-- absolute dir the script is in
+    return os.path.join(script_dir, file)
 
 def get_data_loaders_for_plotting(datapath='data', batch_size=128,
                                   threads=2, raw_data=False, data_split=1):
