@@ -191,11 +191,11 @@ if __name__ == '__main__':
     parser.add_argument('--dir_type', default='weights',
                         help='direction type: weights | states (including BN\'s running_mean/var)')
     parser.add_argument('--x', default='-1:1:51', help='A string with format xmin:xmax:xnum')
-    parser.add_argument('--y', default=None, help='A string with format ymin:ymax:ynum')
-    parser.add_argument('--xnorm', default='', help='direction normalization: filter | layer | weight')
-    parser.add_argument('--ynorm', default='', help='direction normalization: filter | layer | weight')
-    parser.add_argument('--xignore', default='', help='ignore bias and BN parameters: biasbn')
-    parser.add_argument('--yignore', default='', help='ignore bias and BN parameters: biasbn')
+    parser.add_argument('--y', default='-1:1:51', help='A string with format ymin:ymax:ynum')
+    parser.add_argument('--xnorm', default='filter', help='direction normalization: filter | layer | weight')
+    parser.add_argument('--ynorm', default='filter', help='direction normalization: filter | layer | weight')
+    parser.add_argument('--xignore', default='biasbn', help='ignore bias and BN parameters: biasbn')
+    parser.add_argument('--yignore', default='biasbn', help='ignore bias and BN parameters: biasbn')
     parser.add_argument('--same_dir', action='store_true', default=False,
                         help='use the same random direction for both x-axis and y-axis')
     parser.add_argument('--idx', default=0, type=int, help='the index for the repeatness experiment')
