@@ -31,7 +31,7 @@ def name_surface_file(args, dir_file):
     if args.surf_file:
         return args.surf_file
 
-    # use args.dir_file as the perfix
+    # use args.dir_file as the prefix
     surf_file = dir_file
 
     # resolution
@@ -290,7 +290,7 @@ if __name__ == '__main__':
         print('cosine similarity between x-axis and y-axis: %f' % similarity)
 
     # --------------------------------------------------------------------------
-    # Setup dataloader
+    # Setup data_loader
     # --------------------------------------------------------------------------
     # download CIFAR10 if it does not exit
     if rank == 0 and args.dataset == 'cifar10':
@@ -306,18 +306,21 @@ if __name__ == '__main__':
     # --------------------------------------------------------------------------
     # Start the computation
     # --------------------------------------------------------------------------
+    dataset = 'train'
+    loader = trainloader
     if args.use_testset:
-        crunch(surf_file, net, w, s, d, testloader, 'test_loss', 'test_acc', comm, rank, args)
-    else:
-        crunch(surf_file, net, w, s, d, trainloader, 'train_loss', 'train_acc', comm, rank, args)
+        dataset = 'test'
+        loader = testloader
+
+    crunch(surf_file, net, w, s, d, loader, f'{dataset}_loss', f'{dataset}_acc', comm, rank, args)
 
     # --------------------------------------------------------------------------
     # Plot figures
     # --------------------------------------------------------------------------
     if args.plot and rank == 0:
         if args.y and args.proj_file:
-            plot_2D.plot_contour_trajectory(surf_file, dir_file, args.proj_file, 'train_loss', args.show)
+            plot_2D.plot_contour_trajectory(surf_file, dir_file, args.proj_file, f'{dataset}_loss', args.show)
         elif args.y:
-            plot_2D.plot_2d_contour(surf_file, 'train_loss', args.vmin, args.vmax, args.vlevel, args.show)
+            plot_2D.plot_2d_contour(surf_file, f'{dataset}_loss', args.vmin, args.vmax, args.vlevel, args.show)
         else:
             plot_1D.plot_1d_loss_err(surf_file, args.xmin, args.xmax, args.loss_max, args.log, args.show)
