@@ -176,6 +176,7 @@ if __name__ == '__main__':
     parser.add_argument('--split_idx', default=0, type=int, help='the index of data splits for the dataloader')
     parser.add_argument('--trainloader', default='', help='path to the dataloader with random labels')
     parser.add_argument('--testloader', default='', help='path to the testloader with random labels')
+    parser.add_argument('--use_testset', default=False, help='use the test set for computing the landscape')
 
     # model parameters
     parser.add_argument('--model', default='resnet56', help='model name')
@@ -297,8 +298,10 @@ if __name__ == '__main__':
     # --------------------------------------------------------------------------
     # Start the computation
     # --------------------------------------------------------------------------
-    crunch(surf_file, net, w, s, d, trainloader, 'train_loss', 'train_acc', comm, rank, args)
-    # crunch(surf_file, net, w, s, d, testloader, 'test_loss', 'test_acc', comm, rank, args)
+    if args.use_testset:
+        crunch(surf_file, net, w, s, d, testloader, 'test_loss', 'test_acc', comm, rank, args)
+    else:
+        crunch(surf_file, net, w, s, d, trainloader, 'train_loss', 'train_acc', comm, rank, args)
 
     # --------------------------------------------------------------------------
     # Plot figures
