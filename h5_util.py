@@ -4,6 +4,7 @@
 
 import torch
 
+
 def write_list(f, name, direction):
     """ Save the direction to the hdf5 file with name as the key
 

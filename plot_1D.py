@@ -7,12 +7,13 @@ import h5py
 import argparse
 import numpy as np
 
+
 def plot_1d_loss_err(surf_file, xmin=-1.0, xmax=1.0, loss_max=5, log=False, show=False):
     print('------------------------------------------------------------------')
     print('plot_1d_loss_err')
     print('------------------------------------------------------------------')
 
-    f = h5py.File(surf_file,'r')
+    f = h5py.File(surf_file, 'r')
     print(f.keys())
     x = f['xcoordinates'][:]
     assert 'train_loss' in f.keys(), "'train_loss' does not exist"
@@ -54,8 +55,7 @@ def plot_1d_loss_err(surf_file, xmin=-1.0, xmax=1.0, loss_max=5, log=False, show
     ax2.tick_params('y', colors='r', labelsize='x-large')
     ax2.set_ylim(0, 100)
     pp.savefig(surf_file + '_1d_loss_acc' + ('_log' if log else '') + '.pdf',
-                dpi=300, bbox_inches='tight', format='pdf')
-
+               dpi=300, bbox_inches='tight', format='pdf')
 
     # train_loss curve
     pp.figure()
@@ -67,7 +67,7 @@ def plot_1d_loss_err(surf_file, xmin=-1.0, xmax=1.0, loss_max=5, log=False, show
     pp.xlim(xmin, xmax)
     pp.ylim(0, loss_max)
     pp.savefig(surf_file + '_1d_train_loss' + ('_log' if log else '') + '.pdf',
-                dpi=300, bbox_inches='tight', format='pdf')
+               dpi=300, bbox_inches='tight', format='pdf')
 
     # train_err curve
     pp.figure()
@@ -92,7 +92,7 @@ def plot_1d_loss_err_repeat(prefix, idx_min=1, idx_max=10, xmin=-1.0, xmax=1.0,
 
     for idx in range(idx_min, idx_max + 1):
         # The file format should be prefix_{idx}.h5
-        f = h5py.File(prefix + '_' + str(idx) + '.h5','r')
+        f = h5py.File(prefix + '_' + str(idx) + '.h5', 'r')
 
         x = f['xcoordinates'][:]
         train_loss = f['train_loss'][:]
@@ -126,7 +126,7 @@ def plot_1d_eig_ratio(surf_file, xmin=-1.0, xmax=1.0, val_1='min_eig', val_2='ma
     print('plot_1d_eig_ratio')
     print('------------------------------------------------------------------')
 
-    f = h5py.File(surf_file,'r')
+    f = h5py.File(surf_file, 'r')
     x = f['xcoordinates'][:]
 
     Z1 = np.array(f[val_1][:])
@@ -146,7 +146,6 @@ def plot_1d_eig_ratio(surf_file, xmin=-1.0, xmax=1.0, val_1='min_eig', val_2='ma
 
     f.close()
     if show: pp.show()
-
 
 
 if __name__ == '__main__':

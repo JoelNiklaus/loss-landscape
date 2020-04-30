@@ -3,6 +3,7 @@
 """
 import numpy as np
 
+
 def get_unplotted_indices(vals, xcoordinates, ycoordinates=None):
     """
     Args:
@@ -29,7 +30,7 @@ def get_unplotted_indices(vals, xcoordinates, ycoordinates=None):
         xcoord_mesh, ycoord_mesh = np.meshgrid(xcoordinates, ycoordinates)
         s1 = xcoord_mesh.ravel()[inds]
         s2 = ycoord_mesh.ravel()[inds]
-        return inds, np.c_[s1,s2]
+        return inds, np.c_[s1, s2]
     else:
         return inds, xcoordinates.ravel()[inds]
 

@@ -9,6 +9,7 @@ import torch.nn.functional as F
 import time
 from torch.autograd.variable import Variable
 
+
 def eval_loss(net, criterion, loader, use_cuda=False):
     """
     Evaluate the loss value for a given 'net' on the dataset provided by the loader.
@@ -23,7 +24,7 @@ def eval_loss(net, criterion, loader, use_cuda=False):
     """
     correct = 0
     total_loss = 0
-    total = 0 # number of samples
+    total = 0  # number of samples
     num_batch = len(loader)
 
     if use_cuda:
@@ -41,7 +42,7 @@ def eval_loss(net, criterion, loader, use_cuda=False):
                     inputs, targets = inputs.cuda(), targets.cuda()
                 outputs = net(inputs)
                 loss = criterion(outputs, targets)
-                total_loss += loss.item()*batch_size
+                total_loss += loss.item() * batch_size
                 _, predicted = torch.max(outputs.data, 1)
                 correct += predicted.eq(targets).sum().item()
 
@@ -59,8 +60,8 @@ def eval_loss(net, criterion, loader, use_cuda=False):
                     inputs, one_hot_targets = inputs.cuda(), one_hot_targets.cuda()
                 outputs = F.softmax(net(inputs))
                 loss = criterion(outputs, one_hot_targets)
-                total_loss += loss.item()*batch_size
+                total_loss += loss.item() * batch_size
                 _, predicted = torch.max(outputs.data, 1)
                 correct += predicted.cpu().eq(targets).sum().item()
 
-    return total_loss/total, 100.*correct/total
+    return total_loss / total, 100. * correct / total

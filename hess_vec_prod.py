@@ -1,9 +1,9 @@
 import torch
 import time
 import numpy as np
-from torch import nn
 from torch.autograd import Variable
 from scipy.sparse.linalg import LinearOperator, eigsh
+
 
 ################################################################################
 #                              Supporting Functions
@@ -22,7 +22,7 @@ def npvec_to_tensorlist(vec, params):
     rval = []
     for p in params:
         numel = p.data.numel()
-        rval.append(torch.from_numpy(vec[loc:loc+numel]).view(p.data.shape).float())
+        rval.append(torch.from_numpy(vec[loc:loc + numel]).view(p.data.shape).float())
         loc += numel
     assert loc == vec.size, 'The vector has more elements than the net has parameters'
     return rval
@@ -65,7 +65,7 @@ def eval_hess_vec_prod(vec, params, net, criterion, dataloader, use_cuda=False):
         vec = [v.cuda() for v in vec]
 
     net.eval()
-    net.zero_grad() # clears grad for every parameter in the net
+    net.zero_grad()  # clears grad for every parameter in the net
 
     for batch_idx, (inputs, targets) in enumerate(dataloader):
         inputs, targets = Variable(inputs), Variable(targets)
@@ -130,9 +130,10 @@ def min_max_hessian_eigs(net, dataloader, criterion, rank=0, use_cuda=False, ver
 
     # If the largest eigenvalue is positive, shift matrix so that any negative eigenvalue is now the largest
     # We assume the smallest eigenvalue is zero or less, and so this shift is more than what we need
-    shift = maxeig*.51
+    shift = maxeig * .51
+
     def shifted_hess_vec_prod(vec):
-        return hess_vec_prod(vec) - shift*vec
+        return hess_vec_prod(vec) - shift * vec
 
     if verbose and rank == 0: print("Rank %d: Computing shifted eigenvalue" % rank)
 
