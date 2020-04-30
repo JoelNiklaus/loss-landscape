@@ -5,6 +5,7 @@
 """
 import argparse
 import copy
+import json
 import h5py
 import torch
 import time
@@ -259,6 +260,13 @@ if __name__ == '__main__':
             raise ValueError(
                 f'Please do not enter a value higher than the available gpus ({torch.cuda.device_count()}).')
         net = nn.DataParallel(net, device_ids=range(args.ngpu))
+
+    # --------------------------------------------------------------------------
+    # Save the parameters to a file
+    # --------------------------------------------------------------------------
+    model_dir = os.path.dirname(os.path.abspath(args.model_file))  # the directory the model is in
+    with open(f'{model_dir}/parameters.json', 'w') as outfile:
+        json.dump(args.__dict__, outfile)
 
     # --------------------------------------------------------------------------
     # Setup the direction file and the surface file
