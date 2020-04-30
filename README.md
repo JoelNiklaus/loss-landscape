@@ -1,9 +1,10 @@
 # Visualizing the Loss Landscape of Neural Nets
 
-This repository is a fork of the [original repository](https://github.com/tomgoldstein/loss-landscape) by the authors. Here we add simple and easy to use installation and running instructions.
-
-This repository contains the PyTorch code for the paper
+This repository is a fork of the [original repository](https://github.com/tomgoldstein/loss-landscape) by the authors of the paper
 > Hao Li, Zheng Xu, Gavin Taylor, Christoph Studer and Tom Goldstein. [*Visualizing the Loss Landscape of Neural Nets*](https://arxiv.org/abs/1712.09913). NIPS, 2018.
+
+We add simple and easy to use installation and running instructions.
+
 
 An [interactive 3D visualizer](http://www.telesens.co/loss-landscape-viz/viewer.html) for loss surfaces has been provided by [telesens](http://www.telesens.co/2019/01/16/neural-network-loss-visualization/).
 
@@ -14,7 +15,11 @@ The random direction(s) and loss surface values are stored in HDF5 (`.h5`) files
 ## Setup
 
 ### Installation
-#### Option 1
+
+#### Option 1: Conda environment.yml file
+``conda env create -f environment.yml``
+
+#### Option 2: Pip requirements.txt file
 Create a new environment
 ``conda create --name loss_landscape``
 Add the necessary additional channels
@@ -22,20 +27,20 @@ Add the necessary additional channels
 Install the necessary dependencies
 ``conda install --yes --file requirements.txt``
 
-#### Option 2
-``conda env create -f environment.yml``
 
-**Environment**: One or more multi-GPU node(s) with the following software/libraries installed:
-- [PyTorch 1.4.0](https://pytorch.org/)
-- [openmpi 2.0.2](https://www.open-mpi.org/)
-- [mpi4py 3.0.3](https://mpi4py.scipy.org/docs/usrman/install.html)
-- [numpy 1.18.1](https://docs.scipy.org/doc/numpy/user/quickstart.html)  
-- [h5py 2.10.0](http://docs.h5py.org/en/stable/build.html#install)
-- [matplotlib 3.1.3](https://matplotlib.org/users/installing.html)
-- [scipy 1.4.1](https://www.scipy.org/install.html)
 
-**Pre-trained models**:
-The code accepts pre-trained PyTorch models for the CIFAR-10 dataset.
+## Environment
+The above options install the complete environment. Here a short description of the environment:
+- [PyTorch](https://pytorch.org/)
+- [openmpi](https://www.open-mpi.org/)
+- [mpi4py](https://mpi4py.scipy.org/docs/usrman/install.html)
+- [numpy](https://docs.scipy.org/doc/numpy/user/quickstart.html)  
+- [h5py](http://docs.h5py.org/en/stable/build.html#install)
+- [matplotlib](https://matplotlib.org/users/installing.html)
+- [scipy](https://www.scipy.org/install.html)
+
+## Pretrained Models
+The code accepts pre-trained PyTorch models for the CIFAR-10 and CINIC-10 datasets out of the box, but other datasets can also be added.
 To load the pre-trained model correctly, the model file should contain `state_dict`, which is saved from the `state_dict()` method.
 The default path for pre-trained networks is `cifar10/trained_nets`.
 Some of the pre-trained models and plotted figures can be downloaded here:
@@ -44,11 +49,11 @@ Some of the pre-trained models and plotted figures can be downloaded here:
 - [ResNet-56-noshort](https://drive.google.com/a/cs.umd.edu/file/d/1eUvYy3HaiCVHTzi3MHEZGgrGOPACLMkR/view?usp=sharing) (20 MB)
 - [DenseNet-121](https://drive.google.com/a/cs.umd.edu/file/d/1oU0nDFv9CceYM4uW6RcOULYS-rnWxdVl/view?usp=sharing) (75 MB)
 
-**Data preprocessing**:
+## Data preprocessing
 The data pre-processing method used for visualization should be consistent with the one used for model training.
 No data augmentation (random cropping or horizontal flipping) is used in calculating the loss values.
 
-### What exactly do I need to do to make it work?
+## What exactly do I need to do to make it work?
 
 1. If you have a new dataset: add a new folder ``datasets/{your_dataset_name}``.
 2. Add you data to ``datasets/{your_dataset_name}/data``.
@@ -58,8 +63,8 @@ No data augmentation (random cropping or horizontal flipping) is used in calcula
 6. Add a file ``model_loader.py`` in ``datasets/{your_dataset_name}`` and implement the method ``load()``. Also add to the file a dictionary called ``models`` containing a mapping between the name of your model and the model function. You can find documentation in [model_loader.py](datasets/cifar10/model_loader.py).
 
 
-#### Examples for running it
-##### Locally without GPU
+### Examples for running it
+#### Locally without GPU
 
 Implicit (short version):
 ```shell script
@@ -74,7 +79,7 @@ python plot_surface.py --name test_plot --model resnet56 --dataset cifar10 --x=-
 --dir_type weights --xnorm filter --xignore biasbn --ynorm filter --yignore biasbn
 ```
 
-##### On a server with 4 GPUs and 16 CPUs 
+#### On a server with 4 GPUs and 16 CPUs 
 Implicit (short version):
 ```shell script
 nohup python plot_surface.py --name test_plot --model init_baseline_vgglike --dataset cinic10 --x=-1:1:51 --y=-1:1:51 --plot \
@@ -90,12 +95,10 @@ nohup python plot_surface.py --name test_plot --model init_baseline_vgglike --da
 --dir_type weights --xnorm filter --xignore biasbn --ynorm filter --yignore biasbn > nohup.out &
 ```
 
-Please find the description of all the possible parameters in [plot_surface.py](plot_surface.py)
+Please find the description of all the possible parameters in [plot_surface.py](plot_surface.py).
+More examples can be found in [plot_examples.sh](script/plot_examples.sh).
 
-More examples in script/plot_examples.sh
-
-## Troubleshooting
-Do not use mpi when you run it on a single machine.
+Make sure you do not use mpi when you run it on a single machine.
 
 
 ## Citation
