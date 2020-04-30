@@ -187,11 +187,11 @@ if __name__ == '__main__':
 
     # direction parameters
     parser.add_argument('--dir_file', default='',
-                        help='specify the name of direction file, or the path to an eisting direction file')
+                        help='specify the name of direction file, or the path to an existing direction file')
     parser.add_argument('--dir_type', default='weights',
                         help='direction type: weights | states (including BN\'s running_mean/var)')
     parser.add_argument('--x', default='-1:1:51', help='A string with format xmin:xmax:xnum')
-    parser.add_argument('--y', default='-1:1:51', help='A string with format ymin:ymax:ynum')
+    parser.add_argument('--y', default='', help='A string with format ymin:ymax:ynum')
     parser.add_argument('--xnorm', default='filter', help='direction normalization: filter | layer | weight')
     parser.add_argument('--ynorm', default='filter', help='direction normalization: filter | layer | weight')
     parser.add_argument('--xignore', default='biasbn', help='ignore bias and BN parameters: biasbn')
