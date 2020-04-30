@@ -1,6 +1,7 @@
 """
     Manipulate network parameters and setup random directions with normalization.
 """
+import os
 
 import torch
 import copy
@@ -292,6 +293,9 @@ def name_direction_file(args):
                         file2[len(prefix) + 1: file2.rfind('/')] + '_' + file2[file2.rfind('/') + 1:]
     else:
         dir_file += file1
+
+    abs_file = os.path.abspath(dir_file)
+    dir_file = f'{os.path.dirname(abs_file)}/{args.name}/{os.path.basename(abs_file)}'  # add plot name as parent directory
 
     dir_file += '_' + args.dir_type
     if args.xignore:

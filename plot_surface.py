@@ -6,6 +6,8 @@
 import argparse
 import copy
 import json
+from pathlib import Path
+
 import h5py
 import torch
 import time
@@ -162,6 +164,9 @@ def crunch(surf_file, net, w, s, d, dataloader, loss_key, acc_key, comm, rank, a
 ###############################################################
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='plotting loss surface')
+    parser.add_argument('--name', help='name of the plot run; is used as a folder for the files produced')
+
+    # computation
     parser.add_argument('--mpi', '-m', action='store_true', help='use mpi')
     parser.add_argument('--cuda', '-c', action='store_true', help='use cuda')
     parser.add_argument('--threads', default=2, type=int, help='number of threads')
@@ -262,10 +267,12 @@ if __name__ == '__main__':
         net = nn.DataParallel(net, device_ids=range(args.ngpu))
 
     # --------------------------------------------------------------------------
-    # Save the parameters to a file
+    # Save the parameters to a json file
     # --------------------------------------------------------------------------
     model_dir = os.path.dirname(os.path.abspath(args.model_file))  # the directory the model is in
-    with open(f'{model_dir}/parameters.json', 'w') as outfile:
+    plot_dir = f'{model_dir}/{args.name}'  # the directory where all the output of this run is saved
+    Path(plot_dir).mkdir(parents=True, exist_ok=True)  # create the directory
+    with open(f'{plot_dir}/parameters.json', 'w') as outfile:
         json.dump(args.__dict__, outfile)
 
     # --------------------------------------------------------------------------
