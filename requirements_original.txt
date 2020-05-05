@@ -1,10 +1,10 @@
-pytorch==0.4
+pytorch
 torchvision
-openmpi==2.1.2
-mpi4py==2.0.0
-numpy==1.13
-h5py==2.7.0
-matplotlib==2.0.2
-scipy==0.19
+openmpi
+mpi4py
+numpy
+h5py
+matplotlib
+scipy
 scikit-learn
 seaborn
