@@ -83,14 +83,14 @@ python plot_surface.py --name test_plot --model resnet56 --dataset cifar10 --x=-
 Implicit (short version):
 ```shell script
 nohup python plot_surface.py --name test_plot --model init_baseline_vgglike --dataset cinic10 --x=-1:1:51 --y=-1:1:51 --plot \
---model_file cinic10/trained_nets/init_baseline_vgglike_sgd_lr=0.1_bs=128_wd=0.0005_mom=0.9_save_epoch=1_ngpu=4/model_10.t7 \
+--model_file datasets/cinic10/trained_nets/init_baseline_vgglike_sgd_lr=0.1_bs=128_wd=0.0005_mom=0.9_save_epoch=1_ngpu=4/model_10.t7 \
 --cuda --ngpu 4 --threads 8 --batch_size 8192 > nohup.out &
 ```
 
 Explicit (long version):
 ```shell script
 nohup python plot_surface.py --name test_plot --model init_baseline_vgglike --dataset cinic10 --x=-1:1:51 --y=-1:1:51 --plot \
---model_file cinic10/trained_nets/init_baseline_vgglike_sgd_lr=0.1_bs=128_wd=0.0005_mom=0.9_save_epoch=1_ngpu=4/model_10.t7 \
+--model_file datasets/cinic10/trained_nets/init_baseline_vgglike_sgd_lr=0.1_bs=128_wd=0.0005_mom=0.9_save_epoch=1_ngpu=4/model_10.t7 \
 --cuda --ngpu 4 --threads 8 --batch_size 8192 \
 --dir_type weights --xnorm filter --xignore biasbn --ynorm filter --yignore biasbn > nohup.out &
 ```

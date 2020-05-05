@@ -11,9 +11,10 @@ models = {
     'lda_simple'                 : baselines.LDA_SimpleDef,
 }
 
+
 def load(model_name, model_file=None, data_parallel=False):
     net = models[model_name]()
-    if data_parallel: # the model is saved in data parallel mode
+    if data_parallel:  # the model is saved in data parallel mode
         net = torch.nn.DataParallel(net)
 
     if model_file:
