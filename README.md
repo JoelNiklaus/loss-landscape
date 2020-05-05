@@ -18,28 +18,21 @@ The random direction(s) and loss surface values are stored in HDF5 (`.h5`) files
 
 Tested on 
 - Conda version 4.8.3 macOS Catalina 10.15.4
-- Conda version 4.5.11 Ubuntu 16.04.6 LTS
+- Conda version 4.8.3 Ubuntu 16.04.6 LTS
 
 No guarantee is given that these options will work on different systems as the ones tested.
 
 Currently supported possibilities for {platform} are mac and ubuntu.
 
-#### Option 1: Conda environment.yml file
-``conda env create -f environment_{platform}.yml``
+#### Option 1
 
-#### Option 2: Pip requirements.txt file
-Create a new environment
-``conda create --name loss_landscape python=3.8``
-Add the necessary additional channels
-``conda config --add channels pytorch && conda config --add channels cryoem``
-Install the necessary dependencies
-``conda install --yes --file requirements_{platform}.txt``
+``conda create python=3.8 --name loss_landscape --file {platform}_explicit.txt``
 
-#### Option 3:  Pip requirements_original.txt file
-Create a new environment
-``conda create --name loss_landscape python=3.8``
-Try to install the original dependencies (different package versions might bring problems)
-``conda install --yes --file requirements_original.txt``
+#### Option 2 
+``conda env create python=3.8 -f {platform}_env.yml``
+
+#### Troubleshooting
+If none of the above options work: Try to install the packages manually. The most important packages are listed in the file [requirements.txt](requirements.txt).
 
 ## Environment
 The above options install the complete environment. Here a short description of the environment:
