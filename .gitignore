@@ -3,8 +3,13 @@
 *.t7
 *.pth
 *.pdf
+
+/.idea/
+
 datasets/*/plots/*.png
 datasets/*/plots/*.h5
 datasets/*/data/
 datasets/*/trained_nets/
-/.idea/
+
+mac_env.yml
+mac_env_explicit.txt
