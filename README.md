@@ -45,20 +45,6 @@ The most important packages are listed in the section Environment.
 - [scikit-learn](https://scikit-learn.org/stable/install.html)
 - [seaborn](https://seaborn.pydata.org/installing.html)
 
-## Pretrained Models
-The code accepts pre-trained PyTorch models for the CIFAR-10 and CINIC-10 datasets out of the box, but other datasets can also be added.
-To load the pre-trained model correctly, the model file should contain `state_dict`, which is saved from the `state_dict()` method.
-The default path for pre-trained networks is `cifar10/trained_nets`.
-Some of the pre-trained models and plotted figures can be downloaded here:
-- [VGG-9](https://drive.google.com/open?id=1jikD79HGbp6mN1qSGojsXOZEM5VAq3tH) (349 MB)
-- [ResNet-56](https://drive.google.com/a/cs.umd.edu/file/d/12oxkvfaKcPyyHiOevVNTBzaQ1zAFlNPX/view?usp=sharing) (10 MB)
-- [ResNet-56-noshort](https://drive.google.com/a/cs.umd.edu/file/d/1eUvYy3HaiCVHTzi3MHEZGgrGOPACLMkR/view?usp=sharing) (20 MB)
-- [DenseNet-121](https://drive.google.com/a/cs.umd.edu/file/d/1oU0nDFv9CceYM4uW6RcOULYS-rnWxdVl/view?usp=sharing) (75 MB)
-
-## Data preprocessing
-The data pre-processing method used for visualization should be consistent with the one used for model training.
-No data augmentation (random cropping or horizontal flipping) is used in calculating the loss values.
-
 ## What exactly do I need to do to make it work?
 
 1. If you have a new dataset: add a new folder ``datasets/{your_dataset_name}``.
@@ -105,6 +91,21 @@ Please find the description of all the possible parameters in [plot_surface.py](
 More examples can be found in [plot_examples.sh](script/plot_examples.sh).
 
 Make sure you do not use mpi when you run it on a single machine.
+
+## Pretrained Models
+The code accepts pre-trained PyTorch models for the CIFAR-10 and CINIC-10 datasets out of the box, but other datasets can also be added.
+To load the pre-trained model correctly, the model file should contain `state_dict`, which is saved from the `state_dict()` method.
+The default path for pre-trained networks is `cifar10/trained_nets`.
+Some of the pre-trained models and plotted figures can be downloaded here:
+- [VGG-9](https://drive.google.com/open?id=1jikD79HGbp6mN1qSGojsXOZEM5VAq3tH) (349 MB)
+- [ResNet-56](https://drive.google.com/a/cs.umd.edu/file/d/12oxkvfaKcPyyHiOevVNTBzaQ1zAFlNPX/view?usp=sharing) (10 MB)
+- [ResNet-56-noshort](https://drive.google.com/a/cs.umd.edu/file/d/1eUvYy3HaiCVHTzi3MHEZGgrGOPACLMkR/view?usp=sharing) (20 MB)
+- [DenseNet-121](https://drive.google.com/a/cs.umd.edu/file/d/1oU0nDFv9CceYM4uW6RcOULYS-rnWxdVl/view?usp=sharing) (75 MB)
+
+## Data preprocessing
+The data pre-processing method used for visualization should be consistent with the one used for model training.
+No data augmentation (random cropping or horizontal flipping) is used in calculating the loss values.
+
 
 ## Troubleshooting
 
