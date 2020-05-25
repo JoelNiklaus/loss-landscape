@@ -16,20 +16,18 @@ The random direction(s) and loss surface values are stored in HDF5 (`.h5`) files
 
 ### Installation
 
-Tested on 
-- Conda version 4.8.3 macOS Catalina 10.15.4
-- Conda version 4.8.3 Ubuntu 16.04.6 LTS
-
-No guarantee is given that these options will work on different systems as the ones tested.
-
-Currently supported possibilities for {platform} are mac and ubuntu.
+Tested on Ubuntu 16.04.6 LTS with Conda 4.8.3.
 
 #### Option 1
+Run ``conda env create python=3.8 -f env.yml``
 
-``conda create python=3.8 --name loss_landscape --file {platform}_explicit.txt``
+(created with ``conda env export -f env.yml --no-builds``)
 
-#### Option 2 
-``conda env create python=3.8 -f {platform}_env.yml``
+#### Option 2
+Run ``conda create python=3.8 --name loss_landscape --file env_explicit.txt``
+
+(created with ``conda list --explicit > env_explicit.txt``)
+
 
 #### Troubleshooting
 If none of the above options work: Try to install the packages manually. The most important packages are listed in the file [requirements.txt](requirements.txt).
