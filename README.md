@@ -30,17 +30,20 @@ Run ``conda create python=3.8 --name loss_landscape --file env_explicit.txt``
 
 
 #### Troubleshooting
-If none of the above options work: Try to install the packages manually. The most important packages are listed in the file [requirements.txt](requirements.txt).
+If none of the above options work: 
+Try to install the packages manually. 
+The most important packages are listed in the section Environment.
 
-## Environment
-The above options install the complete environment. Here a short description of the environment:
-- [PyTorch](https://pytorch.org/)
+#### Environment
+- [pytorch](https://pytorch.org/)
 - [openmpi](https://www.open-mpi.org/)
 - [mpi4py](https://mpi4py.scipy.org/docs/usrman/install.html)
 - [numpy](https://docs.scipy.org/doc/numpy/user/quickstart.html)  
 - [h5py](http://docs.h5py.org/en/stable/build.html#install)
 - [matplotlib](https://matplotlib.org/users/installing.html)
 - [scipy](https://www.scipy.org/install.html)
+- [scikit-learn](https://scikit-learn.org/stable/install.html)
+- [seaborn](https://seaborn.pydata.org/installing.html)
 
 ## Pretrained Models
 The code accepts pre-trained PyTorch models for the CIFAR-10 and CINIC-10 datasets out of the box, but other datasets can also be added.
@@ -60,7 +63,7 @@ No data augmentation (random cropping or horizontal flipping) is used in calcula
 
 1. If you have a new dataset: add a new folder ``datasets/{your_dataset_name}``.
 2. Add you data to ``datasets/{your_dataset_name}/data``.
-3. Add the code for your models to a file in ``datasets/{your_dataset_name}/models``.
+3. Add the model definitions to a file in ``datasets/{your_dataset_name}/models``.
 4. Add your trained network to a file in ``datasets/{your_dataset_name}/trained_nets/{your_model_with_hyper_parameters}``.
 5. Add a file ``data_loader.py`` in ``datasets/{your_dataset_name}`` and implement the method ``get_data_loaders()``. You can find documentation in [data_loader.py](datasets/cifar10/data_loader.py).
 6. Add a file ``model_loader.py`` in ``datasets/{your_dataset_name}`` and implement the method ``load()``. Also add to the file a dictionary called ``models`` containing a mapping between the name of your model and the model function. You can find documentation in [model_loader.py](datasets/cifar10/model_loader.py).
