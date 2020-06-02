@@ -5,7 +5,6 @@ This repository is a fork of the [original repository](https://github.com/tomgol
 
 We add simple and easy to use installation and running instructions.
 
-
 An [interactive 3D visualizer](http://www.telesens.co/loss-landscape-viz/viewer.html) for loss surfaces has been provided by [telesens](http://www.telesens.co/2019/01/16/neural-network-loss-visualization/).
 
 Given a network architecture and its pre-trained parameters, this tool calculates and visualizes the loss surface along random direction(s) near the optimal parameters.
