@@ -2,8 +2,8 @@ import setuptools
 
 setuptools.setup(
     name='loss_landscape',
-    version='0.0.2',
-    install_requires=['pytorch>=1.4.0', 'openmpi==4.0.3', 'mpi4py==3.0.3', 'numpy==1.18.4', 'h5py==2.10.0',
+    version='0.0.3',
+    install_requires=['mpi4py==3.0.3', 'numpy==1.18.4', 'h5py==2.10.0',
                       'matplotlib==3.2.1', 'scipy==1.4.1', 'scikit-learn==0.22.2.post1', 'seaborn==0.10.1'],
     author="Joel Niklaus",
     author_email="me@joelniklaus.ch",
