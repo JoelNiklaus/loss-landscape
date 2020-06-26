@@ -86,7 +86,7 @@ nohup python plot_surface.py --name test_plot --model init_baseline_vgglike --da
 --dir_type weights --xnorm filter --xignore biasbn --ynorm filter --yignore biasbn > nohup.out &
 ```
 
-Please find the description of all the possible parameters in [plot_surface.py](plot_surface.py).
+Please find the description of all the possible parameters in [plot_surface.py](loss_landscape/plot_surface.py).
 More examples can be found in [plot_examples.sh](script/plot_examples.sh).
 
 Make sure you do not use mpi when you run it on a single machine.

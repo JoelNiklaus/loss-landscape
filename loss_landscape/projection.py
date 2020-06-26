@@ -7,9 +7,7 @@ import torch
 import os
 import copy
 import h5py
-import net_plotter
-import model_loader
-import h5_util
+from loss_landscape import net_plotter, model_loader, h5_util
 from sklearn.decomposition import PCA
 
 

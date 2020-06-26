@@ -13,19 +13,11 @@ import torch
 import time
 import socket
 import os
-import sys
 import numpy as np
 import torchvision
 import torch.nn as nn
-import data_loader
-import evaluation
-import projection as proj
-import net_plotter
-import plot_2D
-import plot_1D
-import model_loader
-import scheduler
-import mpi4pytorch as mpi
+from loss_landscape import scheduler, mpi4pytorch as mpi, plot_1D, net_plotter, data_loader, projection as proj, \
+    plot_2D, model_loader, evaluation
 
 
 def name_surface_file(args, dir_file):

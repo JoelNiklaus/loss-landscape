@@ -11,16 +11,9 @@ import time
 import socket
 import torchvision
 import torch.nn as nn
-import mpi4pytorch
-import data_loader
-import net_plotter
-import plot_2D
-import plot_1D
-import model_loader
-import scheduler
-import projection as proj
-import hess_vec_prod
-from plot_surface import name_surface_file, setup_surface_file
+from loss_landscape import scheduler, mpi4pytorch, plot_1D, net_plotter, data_loader, projection as proj, hess_vec_prod, \
+    plot_2D, model_loader
+from loss_landscape.plot_surface import name_surface_file, setup_surface_file
 
 
 def crunch_hessian_eigs(surf_file, net, w, s, d, dataloader, comm, rank, args):

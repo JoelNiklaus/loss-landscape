@@ -15,7 +15,7 @@ def load(dataset, model_name, model_file, data_parallel=False):
     Returns:
         the loaded model
     """
-    available_datasets = [f.name for f in os.scandir("datasets") if f.is_dir()]
+    available_datasets = [f.name for f in os.scandir("../datasets") if f.is_dir()]
     try:
         available_datasets.remove("__pycache__")
     except:

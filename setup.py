@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name='loss_landscape',
-    version='0.0.5',
+    version='0.0.6.dev1',
     install_requires=['numpy==1.18.4', 'h5py==2.10.0', 'matplotlib==3.2.1', 'scipy==1.4.1',
                       'scikit-learn==0.22.2.post1', 'seaborn==0.10.1'],
     author="Joel Niklaus",

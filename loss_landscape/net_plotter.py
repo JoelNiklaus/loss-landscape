@@ -7,8 +7,7 @@ import torch
 import copy
 from os.path import exists, commonprefix
 import h5py
-import h5_util
-import model_loader
+from loss_landscape import model_loader, h5_util
 
 
 ################################################################################
