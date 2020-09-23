@@ -24,3 +24,4 @@ mac_env_explicit.txt
 /dist/
 /loss_landscape.egg-info/
 
+/build/
