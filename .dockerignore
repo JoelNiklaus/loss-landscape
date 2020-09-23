@@ -1,0 +1,29 @@
+*.pyc
+*.t7
+*.pth
+*.pdf
+
+# Git
+.git/
+
+# macOS
+*.DS_Store
+
+# Pycharm
+/.idea/
+
+# Data
+datasets/*/plots/*.png
+datasets/*/plots/*.h5
+datasets/*/data/
+datasets/*/trained_nets/
+
+# macOS specific Environment
+mac_env.yml
+mac_env_explicit.txt
+
+# PyPi
+/build/lib/datasets/
+/dist/
+/loss_landscape.egg-info/
+
