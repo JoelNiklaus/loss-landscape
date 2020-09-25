@@ -154,65 +154,8 @@ def crunch(surf_file, net, w, s, d, dataloader, loss_key, acc_key, comm, rank, a
 ###############################################################
 #                          MAIN
 ###############################################################
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='plotting loss surface')
-    parser.add_argument('--name', help='name of the plot run; is used as a folder for the files produced')
 
-    # computation
-    parser.add_argument('--mpi', '-m', action='store_true', help='use mpi')
-    parser.add_argument('--cuda', '-c', action='store_true', help='use cuda')
-    parser.add_argument('--threads', default=2, type=int, help='number of threads')
-    parser.add_argument('--ngpu', type=int, default=1,
-                        help='number of GPUs to use for each rank, useful for data parallel evaluation')
-    parser.add_argument('--batch_size', default=128, type=int, help='minibatch size')
-
-    # data parameters
-    parser.add_argument('--dataset', default='cifar10', help='cifar10 | imagenet')
-    parser.add_argument('--datapath', default='data', metavar='DIR', help='path to the dataset')
-    parser.add_argument('--raw_data', action='store_true', default=False, help='no data preprocessing')
-    parser.add_argument('--data_split', default=1, type=int, help='the number of splits for the dataloader')
-    parser.add_argument('--split_idx', default=0, type=int, help='the index of data splits for the dataloader')
-    parser.add_argument('--trainloader', default='', help='path to the dataloader with random labels')
-    parser.add_argument('--testloader', default='', help='path to the testloader with random labels')
-    parser.add_argument('--use_testset', default=False, help='use the test set for computing the landscape')
-
-    # model parameters
-    parser.add_argument('--model', default='resnet56', help='model name')
-    parser.add_argument('--model_folder', default='', help='the common folder that contains model_file and model_file2')
-    parser.add_argument('--model_file', default='', help='path to the trained model file')
-    parser.add_argument('--model_file2', default='', help='use (model_file2 - model_file) as the xdirection')
-    parser.add_argument('--model_file3', default='', help='use (model_file3 - model_file) as the ydirection')
-    parser.add_argument('--loss_name', '-l', default='crossentropy', help='loss functions: crossentropy | mse')
-
-    # direction parameters
-    parser.add_argument('--dir_file', default='',
-                        help='specify the name of direction file, or the path to an existing direction file')
-    parser.add_argument('--dir_type', default='weights',
-                        help='direction type: weights | states (including BN\'s running_mean/var)')
-    parser.add_argument('--x', default='-1:1:51', help='A string with format xmin:xmax:xnum')
-    parser.add_argument('--y', default='', help='A string with format ymin:ymax:ynum')
-    parser.add_argument('--xnorm', default='filter', help='direction normalization: filter | layer | weight')
-    parser.add_argument('--ynorm', default='filter', help='direction normalization: filter | layer | weight')
-    parser.add_argument('--xignore', default='biasbn', help='ignore bias and BN parameters: biasbn')
-    parser.add_argument('--yignore', default='biasbn', help='ignore bias and BN parameters: biasbn')
-    parser.add_argument('--same_dir', action='store_true', default=False,
-                        help='use the same random direction for both x-axis and y-axis')
-    parser.add_argument('--idx', default=0, type=int, help='the index for the repeatness experiment')
-    parser.add_argument('--surf_file', default='',
-                        help='customize the name of surface file, could be an existing file.')
-
-    # plot parameters
-    parser.add_argument('--proj_file', default='', help='the .h5 file contains projected optimization trajectory.')
-    parser.add_argument('--loss_max', default=5, type=float, help='Maximum value to show in 1D plot')
-    parser.add_argument('--vmax', default=10, type=float, help='Maximum value to map')
-    parser.add_argument('--vmin', default=0.1, type=float, help='Miminum value to map')
-    parser.add_argument('--vlevel', default=0.5, type=float, help='plot contours every vlevel')
-    parser.add_argument('--show', action='store_true', default=False, help='show plotted figures')
-    parser.add_argument('--log', action='store_true', default=False, help='use log scale for loss values')
-    parser.add_argument('--plot', action='store_true', default=False, help='plot figures after computation')
-
-    args = parser.parse_args()
-
+def main(args):
     torch.manual_seed(123)
     # --------------------------------------------------------------------------
     # Environment setup
@@ -323,3 +266,65 @@ if __name__ == '__main__':
             plot_2D.plot_2d_contour(surf_file, f'{dataset}_loss', args.vmin, args.vmax, args.vlevel, args.show)
         else:
             plot_1D.plot_1d_loss_err(surf_file, args.xmin, args.xmax, args.loss_max, args.log, args.show)
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='plotting loss surface')
+    parser.add_argument('--name', help='name of the plot run; is used as a folder for the files produced')
+
+    # computation
+    parser.add_argument('--mpi', '-m', action='store_true', help='use mpi')
+    parser.add_argument('--cuda', '-c', action='store_true', help='use cuda')
+    parser.add_argument('--threads', default=2, type=int, help='number of threads')
+    parser.add_argument('--ngpu', type=int, default=1,
+                        help='number of GPUs to use for each rank, useful for data parallel evaluation')
+    parser.add_argument('--batch_size', default=128, type=int, help='minibatch size')
+
+    # data parameters
+    parser.add_argument('--dataset', default='cifar10', help='cifar10 | imagenet')
+    parser.add_argument('--datapath', default='data', metavar='DIR', help='path to the dataset')
+    parser.add_argument('--raw_data', action='store_true', default=False, help='no data preprocessing')
+    parser.add_argument('--data_split', default=1, type=int, help='the number of splits for the dataloader')
+    parser.add_argument('--split_idx', default=0, type=int, help='the index of data splits for the dataloader')
+    parser.add_argument('--trainloader', default='', help='path to the dataloader with random labels')
+    parser.add_argument('--testloader', default='', help='path to the testloader with random labels')
+    parser.add_argument('--use_testset', default=False, help='use the test set for computing the landscape')
+
+    # model parameters
+    parser.add_argument('--model', default='resnet56', help='model name')
+    parser.add_argument('--model_folder', default='', help='the common folder that contains model_file and model_file2')
+    parser.add_argument('--model_file', default='', help='path to the trained model file')
+    parser.add_argument('--model_file2', default='', help='use (model_file2 - model_file) as the xdirection')
+    parser.add_argument('--model_file3', default='', help='use (model_file3 - model_file) as the ydirection')
+    parser.add_argument('--loss_name', '-l', default='crossentropy', help='loss functions: crossentropy | mse')
+
+    # direction parameters
+    parser.add_argument('--dir_file', default='',
+                        help='specify the name of direction file, or the path to an existing direction file')
+    parser.add_argument('--dir_type', default='weights',
+                        help='direction type: weights | states (including BN\'s running_mean/var)')
+    parser.add_argument('--x', default='-1:1:51', help='A string with format xmin:xmax:xnum')
+    parser.add_argument('--y', default='', help='A string with format ymin:ymax:ynum')
+    parser.add_argument('--xnorm', default='filter', help='direction normalization: filter | layer | weight')
+    parser.add_argument('--ynorm', default='filter', help='direction normalization: filter | layer | weight')
+    parser.add_argument('--xignore', default='biasbn', help='ignore bias and BN parameters: biasbn')
+    parser.add_argument('--yignore', default='biasbn', help='ignore bias and BN parameters: biasbn')
+    parser.add_argument('--same_dir', action='store_true', default=False,
+                        help='use the same random direction for both x-axis and y-axis')
+    parser.add_argument('--idx', default=0, type=int, help='the index for the repeatness experiment')
+    parser.add_argument('--surf_file', default='',
+                        help='customize the name of surface file, could be an existing file.')
+
+    # plot parameters
+    parser.add_argument('--proj_file', default='', help='the .h5 file contains projected optimization trajectory.')
+    parser.add_argument('--loss_max', default=5, type=float, help='Maximum value to show in 1D plot')
+    parser.add_argument('--vmax', default=10, type=float, help='Maximum value to map')
+    parser.add_argument('--vmin', default=0.1, type=float, help='Miminum value to map')
+    parser.add_argument('--vlevel', default=0.5, type=float, help='plot contours every vlevel')
+    parser.add_argument('--show', action='store_true', default=False, help='show plotted figures')
+    parser.add_argument('--log', action='store_true', default=False, help='use log scale for loss values')
+    parser.add_argument('--plot', action='store_true', default=False, help='plot figures after computation')
+
+    args = parser.parse_args()
+
+    main(args)
